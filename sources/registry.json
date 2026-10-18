@@ -1,0 +1,6 @@
+{
+  "version": 1,
+  "updated_at": null,
+  "note": "动态源注册表，由 scripts/discover_sources.py / validate_streams.py / retire_sources.py 自动维护，请勿手工编辑。sources 以 playlist_url 为键。",
+  "sources": {}
+}

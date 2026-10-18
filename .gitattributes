@@ -1,0 +1,10 @@
+# 统一 LF，避免 Windows 本地生成的文件污染 diff
+* text=auto eol=lf
+*.m3u text eol=lf
+*.m3u8 text eol=lf
+*.txt text eol=lf
+*.sh text eol=lf
+*.py text eol=lf
+*.json text eol=lf
+*.yml text eol=lf
+*.ini text eol=lf

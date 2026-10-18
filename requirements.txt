@@ -1,0 +1,7 @@
+# iptv-everyday 运行依赖
+# 说明：ffmpeg / ffprobe 为系统级二进制，不在 pip 依赖内（见 README 安装说明）
+requests>=2.31.0
+# Windows 上 zoneinfo 需要 tzdata 才能拿到 Asia/Shanghai
+tzdata>=2024.1
+# 繁简转换（可选）：装上后频道名归一化更准；未安装时使用内置繁简表
+# opencc-python-reimplemented==0.1.7

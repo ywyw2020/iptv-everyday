@@ -1,0 +1,9 @@
+# 运行时产物与本地环境不入库
+.venv/
+__pycache__/
+*.pyc
+output/work/
+output/log/*.log
+!output/log/.gitkeep
+.DS_Store
+Thumbs.db

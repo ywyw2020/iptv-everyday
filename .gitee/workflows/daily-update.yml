@@ -1,0 +1,35 @@
+version: '1.0'
+name: daily-iptv-hunt
+displayName: IPTV 源每日自动狩猎与更新
+triggers:
+  trigger: auto
+  schedule:
+    # Gitee Go 使用 UTC 时间：18:00 UTC = 次日 02:00 北京时间
+    - cron: '* 0 18 * * ? *'
+stages:
+  - name: hunt-and-update
+    displayName: 采集与更新
+    strategy: naturally
+    steps:
+      - step: build@python
+        name: run_update
+        displayName: 执行更新脚本
+        pythonVersion: '3.11'
+        commands:
+          # ffmpeg / ffprobe 是二/三层验证的硬依赖，装不上时脚本会自动降级并告警
+          - which ffmpeg || (yum install -y ffmpeg || apt-get install -y ffmpeg || echo "[WARN] ffmpeg 安装失败，本次降级验证")
+          - python -m pip install --upgrade pip
+          - pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
+          - python scripts/discover_sources.py
+          - python scripts/retire_sources.py
+          - python scripts/fetch_sources.py
+          - python scripts/deduplicate.py
+          - python scripts/validate_streams.py
+          - python scripts/generate_m3u.py
+          - chmod +x scripts/push_to_gitee.sh
+          - ./scripts/push_to_gitee.sh
+        env:
+          GITEE_PUSH_TOKEN: ${{ GITEE_PUSH_TOKEN }}
+          GITEE_REPO_URL: ${{ GITEE_REPO_URL }}
+          GITHUB_TOKEN: ${{ GITHUB_TOKEN }}
+          PYTHONUNBUFFERED: '1'
